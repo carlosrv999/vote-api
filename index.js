@@ -12,7 +12,7 @@ const dbConnectionParams = {
   database        : 'votes',
   charset         : 'utf8mb4'
 }
-
+var connectionTest = mysql.createConnection(dbConnectionParams);
 module.exports.pool  = mysql.createPool(dbConnectionParams);
 
 app.use(cors())
@@ -31,6 +31,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+connectionTest.connect((err) => {
+  if (err) {
+    console.log("Error connecting to database: "+err.stack);
+    throw err;
+  }
+  console.log("Successfully connected to database with credentials.");
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
 })
