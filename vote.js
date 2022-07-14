@@ -16,7 +16,7 @@ router.get('/vote', (req, res) => {
 })
 
 router.post('/vote', (req, res) => {
-  queryInsertVote(req, (results) => {
+  queryInsertVote(req.body.emoji_id, (results) => {
     res.send({
       "result": "success",
       "voted": req.body

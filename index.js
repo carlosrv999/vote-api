@@ -3,9 +3,11 @@ import cors from 'cors'
 import mysql from 'mysql'
 import router from './vote.js'
 import { dbConnectionParams } from './db-config.js'
+import {server, grpc} from './grpc-server.js'
 
 const app = express()
 const port = 3001
+const grpcPort = 50051
 var connectionTest = mysql.createConnection(dbConnectionParams)
 export const pool = mysql.createPool(dbConnectionParams)
 
@@ -32,6 +34,10 @@ connectionTest.connect((err) => {
   }
   console.log("Successfully connected to database with credentials.");
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`REST API Server listening on port ${port}`)
+  })
+  server.bindAsync(`0.0.0.0:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (error, port) => {
+    console.log(`gRPC Server listening on ${port}`)
+    server.start()
   })
 })

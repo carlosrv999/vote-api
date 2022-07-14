@@ -9,8 +9,8 @@ export const querySelectVotes = (successHandler, errorHandler) => {
   })
 }
 
-export const queryInsertVote = (req, successHandler, errorHandler) => {
-  pool.query(`insert into votes (emoji_id, voting_date) values (?, CURRENT_TIMESTAMP);`, [req.body.emoji_id], (error, results, fields) => {
+export const queryInsertVote = (emoji_id, successHandler, errorHandler) => {
+  pool.query(`insert into votes (emoji_id, voting_date) values (?, CURRENT_TIMESTAMP);`, [emoji_id], (error, results, fields) => {
     if (error) {
       errorHandler(error)
     }
