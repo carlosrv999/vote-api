@@ -1,11 +1,13 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
+import mysql from 'mysql'
+import router from './vote.js'
+import { dbConnectionParams } from './db-config.js'
+
 const app = express()
 const port = 3001
-var mysql = require('mysql');
-const dbConnectionParams = require('./db-config');
-var connectionTest = mysql.createConnection(dbConnectionParams);
-module.exports.pool  = mysql.createPool(dbConnectionParams);
+var connectionTest = mysql.createConnection(dbConnectionParams)
+export const pool = mysql.createPool(dbConnectionParams)
 
 app.use(cors())
 app.use(express.json())
@@ -17,10 +19,10 @@ const myLogger = function (req, res, next) {
 
 app.use(myLogger)
 
-app.use(require('./vote'));
+app.use(router);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('App is running')
 })
 
 connectionTest.connect((err) => {

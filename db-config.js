@@ -1,4 +1,4 @@
-module.exports = {
+export const dbConnectionParams =  {
   connectionLimit : 10,
   host            : process.env.MYSQL_HOST,
   port            : process.env.MYSQL_PORT,
